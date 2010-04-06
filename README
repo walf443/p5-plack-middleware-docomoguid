@@ -1,16 +1,31 @@
 NAME
-    Plack::Middleware::DoCoMoGUID -
+    Plack::Middleware::DoCoMoGUID - combine DoCoMoGUID::RedirectFilter and
+    DoCoMoGUID::HTMLStickyQuery.
 
 SYNOPSIS
-      use Plack::Middleware::DoCoMoGUID;
+      use Plack::Builder;
+
+      builder {
+        enable_if { $_[0]->{UserAgent} =~ m/DoCoMo/i } "DoCoMoGUID";
+      };
 
 DESCRIPTION
-    Plack::Middleware::DoCoMoGUID is
+    Plack::Middleware::DoCoMoGUID append ?guid=ON to HTML content relative
+    link or form action or Location header of your HTTP_HOST.
+
+    If you want not to use with redirect filter and html filter, consider
+    using RedirectFilter or HTMLStickyQuery separatery.
 
 AUTHOR
     Keiji Yoshimi <walf443 at gmail dot com>
 
 SEE ALSO
+    +<Plack::Middleware::DoCoMoGUID::RedirectFilter>,
+    +<Plack::Middleware::DoCoMoGUID::HTMLStickyQuery>
+
+    http://www.nttdocomo.co.jp/service/imode/make/content/ip/index.html#imod
+    eid
+
 LICENSE
     This library is free software; you can redistribute it and/or modify it
     under the same terms as Perl itself.
