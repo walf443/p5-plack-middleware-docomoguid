@@ -26,9 +26,9 @@ test_psgi(
     },
     client => sub {
         my $cb = shift;
-        my $req = HTTP::Request->new(GET => "http://localhost/hello");
+        my $req = HTTP::Request->new(GET => "http://localhost/hello?foo=bar");
         my $res = $cb->($req);
-        is($res->header('location'), 'http://localhost/hello?guid=ON');
+        is($res->header('location'), 'http://localhost/hello?guid=ON&foo=bar');
     }
 );
 
