@@ -1,6 +1,7 @@
 use strict;
 use warnings;
 use Test::More;
+use HTTP::Request;
 use Plack::Test;
 use Plack::Builder;
 use Plack::Request;

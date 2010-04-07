@@ -11,10 +11,11 @@ sub call {
     if ( $res->[0] == 200 ) {
         my $headers = $res->[1];
         my $body = $res->[2];
-        if ( Plack::Util::header_get('content-type') =~ m{text/html} ) {
-            my $sticky = HTMLStickyQuery::DoCoMoGUID->new;
+        my $content_type = Plack::Util::header_get($res->[1], 'content-type');
+        if ( $content_type && $content_type =~ m{text/html} ) {
+            my $sticky = HTML::StickyQuery::DoCoMoGUID->new;
             $body = $sticky->sticky(arrayref => $body);
-            $res->[2] = $body;
+            $res->[2] = [ $body ];
         }
     }
 
