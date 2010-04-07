@@ -1,6 +1,8 @@
 use strict;
 use warnings;
+use utf8;
 use Test::More;
+use Encode;
 use HTTP::Request;
 use Plack::Test;
 use Plack::Builder;
@@ -24,14 +26,16 @@ subtest 'success case' => sub {
                         <head></head>
                         <body>
                             <a class="should_replace1" href="/foo?foo=bar">foo</a>
-                            <a class="should_replace2" href="relative?foo=bar">relative</a>
-                            <a class="should_not_replace" href="http://example.com/?foo=bar">example.com</a>
+                            <a class="should_replace2" href="relative?foo=bar">あいうえお</a>
+                            <a class="should_not_replace" href="http://example.com/?foo=bar">かきくけこ</a>
 
                             <form method="POST" action="/foo?foo=bar">
                             </form>
                         </body>
                     </html>
 ...
+
+                    $body = Encode::encode_utf8($body);
                     [200, [ 'Content-Type' => 'text/html'], [ $body ] ];
                 };
             };
@@ -45,7 +49,7 @@ subtest 'success case' => sub {
                 die $res->content;
             }
             my $tree = HTML::TreeBuilder::XPath->new;
-            $tree->parse($res->content);
+            $tree->parse(Encode::decode_utf8($res->content));
             my $node1 = $tree->findnodes('//a[@class="should_replace1"]');
             is($node1->[0]->attr('href'), '/foo?guid=ON&foo=bar', 'should_replace1 ok');
 
