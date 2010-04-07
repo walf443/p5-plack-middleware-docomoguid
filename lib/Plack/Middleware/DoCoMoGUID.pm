@@ -28,7 +28,7 @@ Plack::Middleware::DoCoMoGUID - combine DoCoMoGUID::RedirectFilter and DoCoMoGUI
   use Plack::Builder;
 
   builder {
-    enable_if { $_[0]->{UserAgent} =~ m/DoCoMo/i } "DoCoMoGUID";
+    enable_if { $_[0]->{HTTP_USER_AGENT} =~ m/DoCoMo/i } "DoCoMoGUID";
   };
 
 =head1 DESCRIPTION
