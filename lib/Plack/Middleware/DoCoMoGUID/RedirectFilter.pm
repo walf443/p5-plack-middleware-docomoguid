@@ -9,13 +9,13 @@ sub call {
     my ($self, $env) = @_;
     my $res = $self->app->($env);
     if ( $res->[0] == 301 || $res->[0] == 302 ) {
-        my $location = Plack::Util::header_get('location', $res->[1]);
+        my $location = Plack::Util::header_get($res->[1], 'location');
         my $uri = URI->new($location);
 
         # Is there any case to using not match host?
-        if ( $uri->host eq $env->{HTTP_HOST} ) {
-            $uri = $uri->query_form(guid => 'ON');
-            Plack::Util::header_set('location', $res->[1] => $uri->as_string);
+        if ( $uri->host eq $env->{SERVER_NAME} ) {
+            $uri->query_form(guid => 'ON');
+            Plack::Util::header_set($res->[1], 'location', $uri->as_string);
         }
     }
 
