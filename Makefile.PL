@@ -9,6 +9,10 @@ readme_from 'lib/Plack/Middleware/DoCoMoGUID.pm';
 tests 't/*.t';
 author_tests 'xt';
 
+requires 'Plack::Middleware';
+requires 'HTML::StickyQuery::DoCoMoGUID';
+requires 'URI';
+
 build_requires 'Test::More';
 build_requires 'Test::LoadAllModules';
 build_requires 'Module::Install::ReadmeFromPod';
