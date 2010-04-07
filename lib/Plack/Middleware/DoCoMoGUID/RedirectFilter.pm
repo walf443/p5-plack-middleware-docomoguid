@@ -13,7 +13,7 @@ sub call {
         my $uri = URI->new($location);
 
         # Is there any case to using not match host?
-        if ( $uri->host eq $env->{SERVER_NAME} ) {
+        if ( $uri->host eq ( $env->{HTTP_HOST} || $env->{SERVER_NAME} ) ) {
             $uri->query_form(guid => 'ON', $uri->query_form);
             Plack::Util::header_set($res->[1], 'location', $uri->as_string);
         }
