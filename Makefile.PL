@@ -14,6 +14,9 @@ requires 'HTML::StickyQuery::DoCoMoGUID';
 requires 'URI';
 
 build_requires 'Test::More';
+build_requires 'Plack::Test';
+build_requires 'HTTP::Request';
+build_requires 'HTML::TreeBuilder::XPath';
 build_requires 'Test::LoadAllModules';
 build_requires 'Module::Install::ReadmeFromPod';
 use_test_base;
