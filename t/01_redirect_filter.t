@@ -17,20 +17,25 @@ subtest 'do filter case' => sub {
                 sub {
                     my $env = shift;
                     my $req = Plack::Request->new($env);
-                    if ( $req->param('guid') ) {
-                        return [200, [], ['found']];
-                    } else {
-                        return [302, [Location => $req->uri->as_string], []];
-                    }
+                    return [302, [Location => $req->uri->as_string], []];
                 };
             };
             $app->($env);
         },
         client => sub {
             my $cb = shift;
-            my $req = HTTP::Request->new(GET => "http://localhost/hello?foo=bar");
-            my $res = $cb->($req);
-            is($res->header('location'), 'http://localhost/hello?guid=ON&foo=bar');
+            {
+                my $req = HTTP::Request->new(GET => "http://localhost/hello?foo=bar");
+                my $res = $cb->($req);
+                is($res->code, 302, 'redirect ok');
+                is($res->header('location'), 'http://localhost/hello?guid=ON&foo=bar', 'guid=ON should set');
+            }
+            {
+                my $req = HTTP::Request->new(GET => "http://localhost/hello?foo=bar&guid=FOO");
+                my $res = $cb->($req);
+                is($res->code, 302, 'redirect ok');
+                is($res->header('location'), 'http://localhost/hello?foo=bar&guid=FOO', 'should not append guid=ON');
+            }
         },
     );
 
