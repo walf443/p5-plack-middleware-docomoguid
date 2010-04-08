@@ -7,12 +7,14 @@ use parent 'Plack::Middleware';
 
 use Plack::Middleware::DoCoMoGUID::HTMLStickyQuery;
 use Plack::Middleware::DoCoMoGUID::RedirectFilter;
+use Plack::Middleware::DoCoMoGUID::CheckParam;
 
 sub call {
     my ($self, $env) = @_;
 
     my $app = Plack::Middleware::DoCoMoGUID::HTMLStickyQuery->wrap($self->app);
     $app = Plack::Middleware::DoCoMoGUID::RedirectFilter->wrap($app);
+    $app = Plack::Middleware::DoCoMoGUID::CheckParam->wrap($app);
     return $app->($env);
 }
 
@@ -44,6 +46,7 @@ Keiji Yoshimi E<lt>walf443 at gmail dot comE<gt>
 =head1 SEE ALSO
 
 +<Plack::Middleware::DoCoMoGUID::RedirectFilter>, +<Plack::Middleware::DoCoMoGUID::HTMLStickyQuery>
++<Plack::Middleware::DoCoMoGUID::CheckParam> 
 
 http://www.nttdocomo.co.jp/service/imode/make/content/ip/index.html#imodeid
 

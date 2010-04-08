@@ -22,6 +22,7 @@ AUTHOR
 SEE ALSO
     +<Plack::Middleware::DoCoMoGUID::RedirectFilter>,
     +<Plack::Middleware::DoCoMoGUID::HTMLStickyQuery>
+    +<Plack::Middleware::DoCoMoGUID::CheckParam>
 
     http://www.nttdocomo.co.jp/service/imode/make/content/ip/index.html#imod
     eid
