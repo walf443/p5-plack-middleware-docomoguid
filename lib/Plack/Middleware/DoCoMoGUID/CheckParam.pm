@@ -6,10 +6,24 @@ use URI;
 
 sub call {
     my ($self, $env) = @_;
-    if ( $env->{QUERY_STRING} !~ m/(^|&)guid=/ ) {
+    my $params = $self->{params} || +{ guid => 'ON' };
+    $params = +{ %{ $params } };
+    my $do_redirect_fg;
+    for my $key ( keys %{ $params } ) {
+        if ( $env->{QUERY_STRING} !~ m/(^|&)$key=/ ) {
+            $do_redirect_fg++;
+        }
+    }
+    if ( $do_redirect_fg ) {
         my $redirect_uri = sprintf('%s://%s%s', $env->{'psgi.url_scheme'}, ($env->{HTTP_HOST} || $env->{SERVER_NAME}), $env->{REQUEST_URI});
         my $uri = URI->new($redirect_uri);
-        $uri->query_form(guid => 'ON', $uri->query_form);
+        my %query_form = $uri->query_form;
+        for my $key ( keys %{ $params } ) {
+            if ( $query_form{$key} ) {
+                delete $params->{$key};
+            }
+        }
+        $uri->query_form(%{ $params }, $uri->query_form);
         return [ 302, [ Location => $uri->as_string ], [] ];
     } else {
         return $self->app->($env);
