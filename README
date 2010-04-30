@@ -9,6 +9,16 @@ SYNOPSIS
         enable_if { $_[0]->{HTTP_USER_AGENT} =~ m/DoCoMo/i } "DoCoMoGUID";
       };
 
+    or add check param
+
+      builder {
+        enable_if { $_[0]->{HTTP_USER_AGENT} =~ m/DoCoMo/i } "DoCoMoGUID", params => +{
+            'foo' => 'bar',
+        };
+      };
+
+    this will check guid and foo parameter.
+
 DESCRIPTION
     Plack::Middleware::DoCoMoGUID append ?guid=ON to HTML content relative
     link or form action or Location header of your HTTP_HOST.

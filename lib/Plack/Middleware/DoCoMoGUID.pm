@@ -12,9 +12,13 @@ use Plack::Middleware::DoCoMoGUID::CheckParam;
 sub call {
     my ($self, $env) = @_;
 
-    my $app = Plack::Middleware::DoCoMoGUID::HTMLStickyQuery->wrap($self->app);
-    $app = Plack::Middleware::DoCoMoGUID::RedirectFilter->wrap($app);
-    $app = Plack::Middleware::DoCoMoGUID::CheckParam->wrap($app);
+    my %params;
+    if ( $self->{params} ) {
+        $params{params} = $self->{params};
+    }
+    my $app = Plack::Middleware::DoCoMoGUID::HTMLStickyQuery->wrap($self->app, %params);
+    $app = Plack::Middleware::DoCoMoGUID::RedirectFilter->wrap($app, %params);
+    $app = Plack::Middleware::DoCoMoGUID::CheckParam->wrap($app, %params);
     return $app->($env);
 }
 
@@ -32,6 +36,16 @@ Plack::Middleware::DoCoMoGUID - combine DoCoMoGUID::RedirectFilter and DoCoMoGUI
   builder {
     enable_if { $_[0]->{HTTP_USER_AGENT} =~ m/DoCoMo/i } "DoCoMoGUID";
   };
+
+or add check param
+
+  builder {
+    enable_if { $_[0]->{HTTP_USER_AGENT} =~ m/DoCoMo/i } "DoCoMoGUID", params => +{
+        'foo' => 'bar',
+    };
+  };
+
+this will check guid and foo parameter.
 
 =head1 DESCRIPTION
 
