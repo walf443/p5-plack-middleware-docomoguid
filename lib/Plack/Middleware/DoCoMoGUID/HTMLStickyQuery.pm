@@ -41,6 +41,16 @@ Plack::Middleware::DoCoMoGUID::HTMLStickyQuery - added guid=ON to html content l
         enable_if { $_[0]->{HTTP_USER_AGENT} =~ /DoCoMo/i } 'DoCoMoGUID::HTMLStickyQuery';
     };
 
+or add check param
+
+    use Plack::Builder;
+
+    builder {
+        enable_if { $_[0]->{HTTP_USER_AGENT} =~ /DoCoMo/i } 'DoCoMoGUID::HTMLStickyQuery' params => +{ 'foo' => 'bar' };
+    };
+
+this will also append foo parameter to link or form.
+
 =head1 DESCRIPTION
 
 Plack::Middleware::DoCoMoGUID::HTMLStickyQuery filter html content and added guid=ON parameter to

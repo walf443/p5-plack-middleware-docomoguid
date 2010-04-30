@@ -44,9 +44,18 @@ Plack::Middleware::DoCoMoGUID::CheckParam - redirect to param append location if
     use Plack::Builder;
 
     builder {
-        enable_if { $_[0]->{HTTP_USER_AGENT} =~ /DoCoMo/i } 'DoCoMoGUID::CheckParam', params => { guid => 'ON' };
-        # if you are not specify params parameter, params is handled by { guid => 'ON' }.
+        enable_if { $_[0]->{HTTP_USER_AGENT} =~ /DoCoMo/i } 'DoCoMoGUID::CheckParam';
     };
+
+or add check param
+
+    use Plack::Builder;
+
+    builder {
+        enable_if { $_[0]->{HTTP_USER_AGENT} =~ /DoCoMo/i } 'DoCoMoGUID::CheckParam' params => +{ 'foo' => 'bar' };
+    };
+
+this will check guid and foo parameter.
 
 =head1 DESCRIPTION
 
