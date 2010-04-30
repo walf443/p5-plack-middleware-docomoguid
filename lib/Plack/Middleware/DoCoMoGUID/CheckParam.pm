@@ -6,7 +6,9 @@ use URI;
 
 sub call {
     my ($self, $env) = @_;
-    my $params = $self->{params} || +{ guid => 'ON' };
+    my $params = $self->{params} || +{ };
+    $params->{guid} ||= 'ON';
+
     $params = +{ %{ $params } };
     my $do_redirect_fg;
     for my $key ( keys %{ $params } ) {
