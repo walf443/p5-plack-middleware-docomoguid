@@ -15,7 +15,10 @@ sub call {
         if ( $content_type && $content_type =~ m{text/html} ) {
             my $sticky = HTML::StickyQuery::DoCoMoGUID->new;
             $sticky->{sticky}->utf8_mode(1);
-            $body = $sticky->sticky(arrayref => $body);
+            $body = $sticky->sticky(
+                arrayref => $body,
+                ( $self->{params} ? ( param => $self->{params} ) : () ),
+            );
             $res->[2] = [ $body ];
         }
     }
