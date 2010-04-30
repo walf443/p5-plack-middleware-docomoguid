@@ -14,11 +14,20 @@ sub call {
 
         # Is there any case to using not match host?
         if ( $uri->host eq ( $env->{HTTP_HOST} || $env->{SERVER_NAME} ) ) {
+            my $params = $self->{params} || +{};
+            $params->{guid} ||= 'ON';
+
             my %query_form = $uri->query_form;
-            if ( $query_form{guid} ) {
-                # no need to append param.
-            } else {
-                $uri->query_form(guid => 'ON', $uri->query_form);
+            my %fill_param_of;
+            for my $key ( keys %{ $params } ) {
+                if ( ! defined $query_form{$key} ) {
+                    $fill_param_of{$key} = 1;
+                }
+            }
+            if ( keys %fill_param_of ) {
+                my @args = map { ( $_ => $params->{$_} ) } keys %fill_param_of;
+                push @args, $uri->query_form;
+                $uri->query_form(@args);
                 Plack::Util::header_set($res->[1], 'location', $uri->as_string);
             }
         }
