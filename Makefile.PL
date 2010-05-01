@@ -1,5 +1,6 @@
 use inc::Module::Install;
 use Module::Install::ReadmeFromPod;
+use Module::Install::Repository;
 name 'Plack-Middleware-DoCoMoGUID';
 all_from 'lib/Plack/Middleware/DoCoMoGUID.pm';
 readme_from 'lib/Plack/Middleware/DoCoMoGUID.pm';
@@ -22,3 +23,5 @@ build_requires 'Module::Install::ReadmeFromPod';
 use_test_base;
 auto_include;
 WriteAll;
+
+auto_set_repository;
