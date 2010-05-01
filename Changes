@@ -1,4 +1,6 @@
 Revision history for Perl extension Plack::Middleware::DoCoMoGUID
 
+0.02    Sat May  1 11:26:53 JST 2010
+        - added params to all Middleware.
 0.01    Wed Apr  7 07:53:30 2010
         - original version

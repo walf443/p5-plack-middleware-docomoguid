@@ -2,7 +2,7 @@ package Plack::Middleware::DoCoMoGUID;
 
 use strict;
 use warnings;
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 use parent 'Plack::Middleware';
 
 use Plack::Middleware::DoCoMoGUID::HTMLStickyQuery;
