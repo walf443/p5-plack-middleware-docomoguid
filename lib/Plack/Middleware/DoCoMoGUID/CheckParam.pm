@@ -2,6 +2,7 @@ package Plack::Middleware::DoCoMoGUID::CheckParam;
 use strict;
 use warnings;
 use parent 'Plack::Middleware';
+use Plack::Request;
 use URI;
 
 sub call {
@@ -9,10 +10,11 @@ sub call {
     my $params = $self->{params} || +{ };
     $params->{guid} ||= 'ON';
 
+    my $req = Plack::Request->new($env);
     $params = +{ %{ $params } };
     my $do_redirect_fg;
     for my $key ( keys %{ $params } ) {
-        if ( $env->{QUERY_STRING} !~ m/(^|&)$key=/ ) {
+        if ( !defined $req->param($key) ) {
             $do_redirect_fg++;
         }
     }
