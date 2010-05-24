@@ -1,5 +1,8 @@
 Revision history for Perl extension Plack::Middleware::DoCoMoGUID
 
+0.03    Mon May 24 23:59:32 JST 2010
+        - BUG FIXED: HTMLStickyQuery can not handle when ContentType is application/xhtml+xml
+        - BUG FIXED: CheckParam can not handle POST Request
 0.02    Sat May  1 11:26:53 JST 2010
         - added params to all Middleware.
 0.01    Wed Apr  7 07:53:30 2010
