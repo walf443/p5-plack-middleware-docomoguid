@@ -2,6 +2,7 @@ use strict;
 use warnings;
 use Test::More;
 use HTTP::Request;
+use HTTP::Request::Common;
 use Plack::Test;
 use Plack::Builder;
 use Plack::Request;
@@ -38,6 +39,16 @@ for my $middleware ( qw( DoCoMoGUID::CheckParam DoCoMoGUID ) ) {
                         is($res->code, 200, 'redirect should not work')
                             or diag($res->content);
                     }
+
+                    {
+                        my $req = POST "http://localhost/hello", [
+                            foo => 'bar',
+                            guid => 'FOO',
+                        ];
+                        my $res = $cb->($req);
+                        is($res->code, 200, 'redirect should not work')
+                            or diag($res->content);
+                    }
                 },
             );
 
@@ -70,6 +81,16 @@ for my $middleware ( qw( DoCoMoGUID::CheckParam DoCoMoGUID ) ) {
                     }
                     {
                         my $req = HTTP::Request->new(GET => "http://localhost/hello?foo=bar&always=need&guid=FOO");
+                        my $res = $cb->($req);
+                        is($res->code, 200, 'redirect should not work')
+                            or diag($res->content);
+                    }
+                    {
+                        my $req = POST "http://localhost/hello", [
+                            foo => 'bar',
+                            always => 'need',
+                            guid => 'FOO',
+                        ];
                         my $res = $cb->($req);
                         is($res->code, 200, 'redirect should not work')
                             or diag($res->content);
