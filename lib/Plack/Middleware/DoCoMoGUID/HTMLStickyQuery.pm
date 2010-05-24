@@ -12,7 +12,7 @@ sub call {
         my $headers = $res->[1];
         my $body = $res->[2];
         my $content_type = Plack::Util::header_get($res->[1], 'content-type');
-        if ( $content_type && $content_type =~ m{text/html} ) {
+        if ( $content_type && $content_type =~ m{html} ) {
             my $sticky = HTML::StickyQuery::DoCoMoGUID->new;
             $sticky->{sticky}->utf8_mode(1);
             $body = $sticky->sticky(
