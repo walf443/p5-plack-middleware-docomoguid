@@ -12,17 +12,19 @@ use HTML::TreeBuilder::XPath;
 for my $middleware ( qw( DoCoMoGUID::HTMLStickyQuery DoCoMoGUID ) ) {
     subtest $middleware => sub {
         subtest 'success case' => sub {
-            test_psgi(
-                app => sub {
-                    my $env = shift;
-                    my $app = builder {
-                        enable 'Lint';
-                        enable $middleware;
-                        enable 'Lint';
-                        sub {
+            for my $content_type ( qw{ text/html application/xhtml+xml } ) {
+                subtest $content_type => sub {
+                    test_psgi(
+                        app => sub {
                             my $env = shift;
+                            my $app = builder {
+                                enable 'Lint';
+                                enable $middleware;
+                                enable 'Lint';
+                                sub {
+                                    my $env = shift;
 
-                            my $body = <<"...";
+                                    my $body = <<"...";
 
 <html>
     <head></head>
@@ -37,8 +39,8 @@ for my $middleware ( qw( DoCoMoGUID::HTMLStickyQuery DoCoMoGUID ) ) {
 </html>
 ...
 
-                                    $body = Encode::encode_utf8($body);
-                                    [200, [ 'Content-Type' => 'text/html'], [ $body ] ];
+$body = Encode::encode_utf8($body);
+[200, [ 'Content-Type' => $content_type ], [ $body ] ];
                                 };
                             };
                             $app->($env);
@@ -62,42 +64,45 @@ for my $middleware ( qw( DoCoMoGUID::HTMLStickyQuery DoCoMoGUID ) ) {
                             is($node3->[0]->attr('href'), 'http://example.com/?foo=bar', 'should_not_replace ok');
                         },
                     );
-
-                    done_testing();
+                    done_testing;
                 };
+            }
 
-                subtest 'with extra params' => sub {
-                test_psgi(
-                    app => sub {
-                        my $env = shift;
-                        my $app = builder {
-                            enable 'Lint';
-                            enable $middleware, params => +{ 'hoge' => 'fuga' };
-                            enable 'Lint';
-                            sub {
-                                my $env = shift;
+            done_testing();
+        };
 
-                                my $body = <<"...";
+        subtest 'with extra params' => sub {
+            test_psgi(
+                app => sub {
+                    my $env = shift;
+                    my $app = builder {
+                        enable 'Lint';
+                        enable $middleware, params => +{ 'hoge' => 'fuga' };
+                        enable 'Lint';
+                        sub {
+                            my $env = shift;
 
-                                <html>
-                                    <head></head>
-                                    <body>
-                                        <a class="should_replace1" href="/foo?foo=bar">foo</a>
-                                        <a class="should_replace2" href="relative?foo=bar">あいうえお</a>
-                                        <a class="should_not_replace" href="http://example.com/?foo=bar">かきくけこ</a>
+                            my $body = <<"...";
 
-                                        <form method="POST" action="/foo?foo=bar">
-                                        </form>
-                                    </body>
-                                </html>
+<html>
+<head></head>
+<body>
+<a class="should_replace1" href="/foo?foo=bar">foo</a>
+<a class="should_replace2" href="relative?foo=bar">あいうえお</a>
+<a class="should_not_replace" href="http://example.com/?foo=bar">かきくけこ</a>
+
+<form method="POST" action="/foo?foo=bar">
+</form>
+</body>
+</html>
 ...
 
                                 $body = Encode::encode_utf8($body);
                                 [200, [ 'Content-Type' => 'text/html'], [ $body ] ];
                             };
-                    };
-                    $app->($env);
-                },
+                        };
+                        $app->($env);
+                    },
                     client => sub {
                         my $cb = shift;
                         my $req = HTTP::Request->new(GET => "http://localhost/hello?guid=ON&hoge=fuga&foo=bar");
@@ -121,9 +126,9 @@ for my $middleware ( qw( DoCoMoGUID::HTMLStickyQuery DoCoMoGUID ) ) {
                 done_testing();
             };
 
-        done_testing;
-    };
-}
+            done_testing;
+        };
+    }
 
 done_testing();
 
