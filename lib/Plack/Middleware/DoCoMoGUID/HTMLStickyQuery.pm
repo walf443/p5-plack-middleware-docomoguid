@@ -19,6 +19,9 @@ sub call {
                 arrayref => $body,
                 ( $self->{params} ? ( param => $self->{params} ) : () ),
             );
+            my %new_headers = @{$res->[1]};
+            $new_headers{'Content-Length'} = length($body);
+            $res->[1] = [ %new_headers ];
             $res->[2] = [ $body ];
         }
     }
