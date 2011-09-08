@@ -1,6 +1,8 @@
 Revision history for Perl extension Plack::Middleware::DoCoMoGUID
 
 
+0.05    Wed Jan 19 00:21:35 JST 2011
+        - recalclate Content-Length header when P::M::DocomoGUID::HTMLStickyQuery change content body. ( thanks takah0918.)
 0.04    Wed Jan 19 00:21:35 JST 2011
         - trivial update. update pod.
 0.03    Mon May 24 23:59:32 JST 2010
