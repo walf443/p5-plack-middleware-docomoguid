@@ -14,6 +14,7 @@ for my $middleware ( qw( DoCoMoGUID::HTMLStickyQuery DoCoMoGUID ) ) {
         subtest 'success case' => sub {
             for my $content_type ( qw{ text/html application/xhtml+xml } ) {
                 subtest $content_type => sub {
+                    our $INPUT_BODY = "";
                     test_psgi(
                         app => sub {
                             my $env = shift;
@@ -24,7 +25,7 @@ for my $middleware ( qw( DoCoMoGUID::HTMLStickyQuery DoCoMoGUID ) ) {
                                 sub {
                                     my $env = shift;
 
-                                    my $body = <<"...";
+                                    $INPUT_BODY = <<"...";
 
 <html>
     <head></head>
@@ -39,8 +40,8 @@ for my $middleware ( qw( DoCoMoGUID::HTMLStickyQuery DoCoMoGUID ) ) {
 </html>
 ...
 
-$body = Encode::encode_utf8($body);
-[200, [ 'Content-Type' => $content_type ], [ $body ] ];
+$INPUT_BODY = Encode::encode_utf8($INPUT_BODY);
+[200, [ 'Content-Type' => $content_type, 'Content-Length' => length($INPUT_BODY) ], [ $INPUT_BODY ] ];
                                 };
                             };
                             $app->($env);
@@ -52,6 +53,7 @@ $body = Encode::encode_utf8($body);
                             unless ( $res->is_success ) {
                                 die $res->content;
                             }
+                            isnt(length($INPUT_BODY), $res->header('Content-Length'), "should change Content-Length");
                             my $tree = HTML::TreeBuilder::XPath->new;
                             $tree->parse(Encode::decode_utf8($res->content));
                             my $node1 = $tree->findnodes('//a[@class="should_replace1"]');
