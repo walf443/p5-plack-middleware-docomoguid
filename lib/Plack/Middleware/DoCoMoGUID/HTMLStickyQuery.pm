@@ -19,9 +19,9 @@ sub call {
                 arrayref => $body,
                 ( $self->{params} ? ( param => $self->{params} ) : () ),
             );
-            my %new_headers = @{$res->[1]};
-            $new_headers{'Content-Length'} = length($body);
-            $res->[1] = [ %new_headers ];
+            if ( Plack::Util::header_exists($res->[1], 'Content-Length') ) {
+                Plack::Util::header_set($res->[1], 'Content-Length', length($body));
+            }
             $res->[2] = [ $body ];
         }
     }

@@ -112,6 +112,7 @@ $INPUT_BODY = Encode::encode_utf8($INPUT_BODY);
                         unless ( $res->is_success ) {
                             die $res->code;
                         }
+                        ok(!$res->header('Content-Length'), 'Content-Length should not exists');
                         my $tree = HTML::TreeBuilder::XPath->new;
                         $tree->parse(Encode::decode_utf8($res->content));
                         my $node1 = $tree->findnodes('//a[@class="should_replace1"]');
