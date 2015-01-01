@@ -39,7 +39,7 @@ __END__
 
 =head1 NAME
 
-Plack::Middleware::DoCoMoGUID::CheckParam - redirect to param append location if required param is not exist.
+Plack::Middleware::DoCoMoGUID::CheckParam - Issue a redirect to append a required parameter if it does not exist.
 
 =head1 SYNOPSIS
 
@@ -57,11 +57,12 @@ or add check param
         enable_if { $_[0]->{HTTP_USER_AGENT} =~ /DoCoMo/i } 'DoCoMoGUID::CheckParam' params => +{ 'foo' => 'bar' };
     };
 
-this will check guid and foo parameter.
+this will check for the C<guid> and C<foo> parameter.
 
 =head1 DESCRIPTION
 
-Plack::Middleware::DoCoMoGUID::CheckParam is a Plack::Middleware that redirect to param append location if required param is not exist.
+Plack::Middleware::DoCoMoGUID::CheckParam is a L<Plack::Middleware> that
+issues a redirect to append a required parameter if it does not exist.
 
 =head1 AUTHOR
 
@@ -69,7 +70,7 @@ Keiji Yoshimi E<lt>walf443 at gmail dot comE<gt>
 
 =head1 SEE ALSO
 
-+<Plack::Middleware>
+L<Plack::Middleware>
 
 =head1 LICENSE
 

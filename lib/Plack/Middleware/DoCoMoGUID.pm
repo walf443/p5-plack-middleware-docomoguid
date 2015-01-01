@@ -27,7 +27,7 @@ __END__
 
 =head1 NAME
 
-Plack::Middleware::DoCoMoGUID - combine DoCoMoGUID::RedirectFilter and DoCoMoGUID::HTMLStickyQuery.
+Plack::Middleware::DoCoMoGUID - Combine Plack::Middleware::DoCoMoGUID::RedirectFilter and Plack::Middleware::DoCoMoGUID::HTMLStickyQuery.
 
 =head1 SYNOPSIS
 
@@ -45,13 +45,18 @@ or add check param
     };
   };
 
-this will check guid and foo parameter.
+this will check for the C<guid> and C<foo> parameter.
 
 =head1 DESCRIPTION
 
-Plack::Middleware::DoCoMoGUID append ?guid=ON to HTML content relative link or form action or Location header of your HTTP_HOST.
+Plack::Middleware::DoCoMoGUID is a L<Plack::Middleware> that filters HTML
+content and adds C<?guid=ON> to all relative links and form actions using
+L<HTML::StickyQuery::DoCoMoGUID> as well as to the Location header on
+redirects.
 
-If you want not to use with redirect filter and html filter, consider using RedirectFilter or HTMLStickyQuery separatery.
+If you only need the functionality of one module, consider using
+L<Plack::Middleware::DoCoMoGUID::RedirectFilter> or
+L<Plack::Middleware::DoCoMoGUID::HTMLStickyQuery> directly.
 
 =head1 AUTHOR
 
@@ -59,10 +64,10 @@ Keiji Yoshimi E<lt>walf443 at gmail dot comE<gt>
 
 =head1 SEE ALSO
 
-L<Plack::Middleware::DoCoMoGUID::RedirectFilter>, L<Plack::Middleware::DoCoMoGUID::HTMLStickyQuery>
-L<Plack::Middleware::DoCoMoGUID::CheckParam> 
-
-http://www.nttdocomo.co.jp/service/imode/make/content/ip/index.html#imodeid
+L<Plack::Middleware::DoCoMoGUID::RedirectFilter>,
+L<Plack::Middleware::DoCoMoGUID::HTMLStickyQuery>,
+L<Plack::Middleware::DoCoMoGUID::CheckParam>,
+L<Plack::Middleware>
 
 =head1 LICENSE
 
