@@ -41,7 +41,7 @@ __END__
 
 =head1 NAME
 
-Plack::Middleware::DoCoMoGUID::HTMLStickyQuery - added guid=ON to Location header when redirect.
+Plack::Middleware::DoCoMoGUID::RedirectFilter - Add C<?guid=ON> to the Location header on redirects.
 
 =head1 SYNOPSIS
 
@@ -53,7 +53,8 @@ Plack::Middleware::DoCoMoGUID::HTMLStickyQuery - added guid=ON to Location heade
 
 =head1 DESCRIPTION
 
-Plack::Middleware::DoCoMoGUID::RedirectFilter append ?guid=on param to Location header when redirect.
+Plack::Middleware::DoCoMoGUID::RedirectFilter is a L<Plack::Middleware> that
+adds C<?guid=ON> to the Location header on redirects.
 
 =head1 AUTHOR
 
@@ -61,7 +62,7 @@ Keiji Yoshimi E<lt>walf443 at gmail dot comE<gt>
 
 =head1 SEE ALSO
 
-+<HTMLStickyQuery::DoCoMoGUID>, +<Plack::Middleware>
+L<Plack::Middleware>
 
 =head1 LICENSE
 

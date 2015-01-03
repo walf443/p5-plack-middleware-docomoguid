@@ -34,7 +34,7 @@ __END__
 
 =head1 NAME
 
-Plack::Middleware::DoCoMoGUID::HTMLStickyQuery - added guid=ON to html content link.
+Plack::Middleware::DoCoMoGUID::HTMLStickyQuery - Add C<?guid=ON> to HTML content links.
 
 =head1 SYNOPSIS
 
@@ -52,12 +52,13 @@ or add check param
         enable_if { $_[0]->{HTTP_USER_AGENT} =~ /DoCoMo/i } 'DoCoMoGUID::HTMLStickyQuery' params => +{ 'foo' => 'bar' };
     };
 
-this will also append foo parameter to link or form.
+this will also append the C<foo> parameter to all relative links and form actions.
 
 =head1 DESCRIPTION
 
-Plack::Middleware::DoCoMoGUID::HTMLStickyQuery filter html content and added guid=ON parameter to
- all relative link or form action using HTML::StickyQuery::DoCoMoGUID.
+Plack::Middleware::DoCoMoGUID::HTMLStickyQuery is a L<Plack::Middleware> that
+filters HTML content and adds C<?guid=ON> to all relative links and form actions
+using L<HTML::StickyQuery::DoCoMoGUID>.
 
 =head1 AUTHOR
 
@@ -65,7 +66,8 @@ Keiji Yoshimi E<lt>walf443 at gmail dot comE<gt>
 
 =head1 SEE ALSO
 
-+<HTML::StickyQuery::DoCoMoGUID>, +<Plack::Middleware>
+L<HTML::StickyQuery::DoCoMoGUID>,
+L<Plack::Middleware>
 
 =head1 LICENSE
 
