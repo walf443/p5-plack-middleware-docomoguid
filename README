@@ -1,6 +1,7 @@
 NAME
-    Plack::Middleware::DoCoMoGUID - combine DoCoMoGUID::RedirectFilter and
-    DoCoMoGUID::HTMLStickyQuery.
+    Plack::Middleware::DoCoMoGUID - Combine
+    Plack::Middleware::DoCoMoGUID::RedirectFilter and
+    Plack::Middleware::DoCoMoGUID::HTMLStickyQuery.
 
 SYNOPSIS
       use Plack::Builder;
@@ -17,25 +18,25 @@ SYNOPSIS
         };
       };
 
-    this will check guid and foo parameter.
+    this will check for the "guid" and "foo" parameter.
 
 DESCRIPTION
-    Plack::Middleware::DoCoMoGUID append ?guid=ON to HTML content relative
-    link or form action or Location header of your HTTP_HOST.
+    Plack::Middleware::DoCoMoGUID is a Plack::Middleware that filters HTML
+    content and adds "?guid=ON" to all relative links and form actions using
+    HTML::StickyQuery::DoCoMoGUID as well as to the Location header on
+    redirects.
 
-    If you want not to use with redirect filter and html filter, consider
-    using RedirectFilter or HTMLStickyQuery separatery.
+    If you only need the functionality of one module, consider using
+    Plack::Middleware::DoCoMoGUID::RedirectFilter or
+    Plack::Middleware::DoCoMoGUID::HTMLStickyQuery directly.
 
 AUTHOR
     Keiji Yoshimi <walf443 at gmail dot com>
 
 SEE ALSO
     Plack::Middleware::DoCoMoGUID::RedirectFilter,
-    Plack::Middleware::DoCoMoGUID::HTMLStickyQuery
-    Plack::Middleware::DoCoMoGUID::CheckParam
-
-    http://www.nttdocomo.co.jp/service/imode/make/content/ip/index.html#imod
-    eid
+    Plack::Middleware::DoCoMoGUID::HTMLStickyQuery,
+    Plack::Middleware::DoCoMoGUID::CheckParam, Plack::Middleware
 
 LICENSE
     This library is free software; you can redistribute it and/or modify it
