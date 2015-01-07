@@ -20,3 +20,4 @@
 ^\.git/
 ^*.swp
 ^inc/
+^MYMETA\.(yml|json)
